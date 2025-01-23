@@ -62,9 +62,10 @@ export class GameLogic {
   }
 
   static calculateWinningProbabilities(diceConfigurations) {
+    // Change header format
     const tableHeader = ["Dice vs".green];
-    diceConfigurations.forEach((dice, i) => {
-      tableHeader.push(`Dice ${i + 1}: [${dice.join(",")}]`.green);
+    diceConfigurations.forEach((dice) => {
+      tableHeader.push(`[${dice.join(",")}]`.green);
     });
 
     const table = new Table({
@@ -94,28 +95,26 @@ export class GameLogic {
 
     diceConfigurations.forEach((dice1, i) => {
       const row = {};
-      const rowLabel = `Dice ${i + 1}: [${dice1.join(",")}]`.green;
+      // Change row label format
+      const rowLabel = `[${dice1.join(",")}]`.green;
       row[rowLabel] = [];
 
+      // Rest of the code remains the same
       diceConfigurations.forEach((dice2, j) => {
         if (i === j) {
           row[rowLabel].push("-");
           return;
         }
-
         let wins = 0;
         const total = 36;
-
         for (let d1 = 0; d1 < 6; d1++) {
           for (let d2 = 0; d2 < 6; d2++) {
             if (dice1[d1] > dice2[d2]) wins++;
           }
         }
-
         const probability = ((wins / total) * 100).toFixed(1) + "%";
         row[rowLabel].push(probability);
       });
-
       table.push(row);
     });
 
@@ -131,7 +130,8 @@ export class GameLogic {
   }
 
   static displayHelp(diceConfigurations) {
-    console.log("\n===== GAME HELP =====\n".bold);
+    console.log("\n===== GAME HELP START =====\n".cyan.bold);
+
     console.log("Game Rules:".underline);
     console.log("1. First, we determine who goes first through a coin flip");
     console.log("2. Players take turns selecting and rolling dice");
@@ -143,7 +143,9 @@ export class GameLogic {
       console.log(`Dice ${index + 1}: [${dice.join(", ")}]`);
     });
 
-    console.log("\n=== WINNING PROBABILITIES ===");
+    console.log("\n===== PROBABILITIES =====".yellow);
     console.log(this.calculateWinningProbabilities(diceConfigurations));
+
+    console.log("===== GAME HELP END =====\n".cyan.bold);
   }
 }
