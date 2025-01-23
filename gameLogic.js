@@ -24,7 +24,7 @@ export class GameLogic {
       );
 
       if (userNumber === "?") {
-        console.log("\n===== ROLL HELP =====\n".bold);
+        console.log("\n===== ROLL HELP START =====\n".cyan.bold);
         console.log("How the roll works:".underline);
         console.log("1. Computer generates a secure random number (0-5)");
         console.log("2. You provide your number (0-5)");
@@ -35,7 +35,8 @@ export class GameLogic {
           "4. The dice face at that position becomes the roll result"
         );
         console.log("\nAvailable numbers: 0, 1, 2, 3, 4, 5");
-        console.log("Type 'X' to exit or select a number to continue\n");
+        console.log("Type 'X' to exit or select a number to continue");
+        console.log("\n===== ROLL HELP END =====\n".cyan.bold);
         continue;
       }
 

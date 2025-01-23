@@ -155,7 +155,7 @@ async function selectUserDice(diceConfigurations, excludedDice) {
       console.log(`${(index + 1 + " -").green} [${dice.join(",")}]`);
     }
   });
-  console.log("? - View winning chances".blue);
+  console.log("? - Need help?".blue);
 
   const validOptions = diceConfigurations
     .map((_, index) => index + 1)
@@ -171,8 +171,7 @@ async function selectUserDice(diceConfigurations, excludedDice) {
   );
 
   if (selection === "?") {
-    console.log("\n=== WINNING PROBABILITIES ===");
-    console.log(GameLogic.calculateWinningProbabilities(diceConfigurations));
+    GameLogic.displayHelp(diceConfigurations); // Use the existing help display
     return selectUserDice(diceConfigurations, excludedDice);
   }
 
