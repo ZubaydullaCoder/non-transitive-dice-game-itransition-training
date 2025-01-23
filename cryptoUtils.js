@@ -2,7 +2,6 @@ import crypto from "crypto";
 
 export class CryptoHandler {
   static generateSecretKey() {
-    // Generates a 256-bit (32-byte) secret key
     return crypto.randomBytes(32);
   }
 
@@ -13,7 +12,6 @@ export class CryptoHandler {
   }
 
   static generateSecureRandom(min, max) {
-    // Ensures uniform distribution
     const range = max - min + 1;
     const bytesNeeded = Math.ceil(Math.log2(range) / 8);
     const maxValue = Math.pow(256, bytesNeeded);

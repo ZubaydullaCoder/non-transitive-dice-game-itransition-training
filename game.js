@@ -93,7 +93,7 @@ async function playGame(diceConfigurations, firstPlayer) {
   let computerDice, userDice;
 
   if (firstPlayer === "computer") {
-    console.log("[Computer's Turn]".magenta); // Changed from red to magenta
+    console.log("[Computer's Turn]".magenta);
     computerDice = selectComputerDice(diceConfigurations);
     console.log(
       `Computer is choosing its dice: It is [${computerDice.join(",")}] dice.`
@@ -129,9 +129,9 @@ async function playGame(diceConfigurations, firstPlayer) {
       `Your roll of ${userRoll} beats Computer's roll of ${computerRoll}`.green
     );
   } else if (computerRoll > userRoll) {
-    console.log("Computer wins!".magenta.bold); // Changed from red to magenta
+    console.log("Computer wins!".magenta.bold);
     console.log(
-      `Computer's roll of ${computerRoll} beats your ${userRoll}`.magenta // Changed from red to magenta
+      `Computer's roll of ${computerRoll} beats your ${userRoll}`.magenta
     );
   } else {
     console.log("It's a tie!".yellow.bold, userRoll, "equals", computerRoll);
@@ -183,7 +183,7 @@ async function showNextOptions(diceConfigurations) {
   console.log("\n=== WHAT'S NEXT ===".cyan.bold);
   console.log("1 - Play another round".green);
   console.log("2 - View winning probabilities".blue);
-  console.log("3 - Exit game".yellow); // Changed from red to yellow
+  console.log("3 - Exit game".yellow);
 
   const choice = await InputHandler.getUserInput("Your choice", [1, 2, 3]);
 

@@ -23,7 +23,6 @@ export class GameLogic {
         [0, 1, 2, 3, 4, 5]
       );
 
-      // Handle help request with basic help info for rolling
       if (userNumber === "?") {
         console.log("\n===== ROLL HELP =====\n".bold);
         console.log("How the roll works:".underline);
@@ -63,13 +62,11 @@ export class GameLogic {
   }
 
   static calculateWinningProbabilities(diceConfigurations) {
-    // Creates header row with colors and dice values
     const tableHeader = ["Dice vs".green];
     diceConfigurations.forEach((dice, i) => {
       tableHeader.push(`Dice ${i + 1}: [${dice.join(",")}]`.green);
     });
 
-    // Initializes table with styling
     const table = new Table({
       head: tableHeader,
       style: {
@@ -95,7 +92,6 @@ export class GameLogic {
       },
     });
 
-    // Calculates and populates probabilities with detailed dice labels
     diceConfigurations.forEach((dice1, i) => {
       const row = {};
       const rowLabel = `Dice ${i + 1}: [${dice1.join(",")}]`.green;
@@ -108,9 +104,8 @@ export class GameLogic {
         }
 
         let wins = 0;
-        const total = 36; // 6x6 possible combinations
+        const total = 36;
 
-        // Calculates winning probability
         for (let d1 = 0; d1 < 6; d1++) {
           for (let d2 = 0; d2 < 6; d2++) {
             if (dice1[d1] > dice2[d2]) wins++;
@@ -124,7 +119,6 @@ export class GameLogic {
       table.push(row);
     });
 
-    // Generates explanation text with updated format reference
     const explanation = [
       "\nWinning Probabilities Table:".bold,
       "• Each row shows how likely that dice is to win against others",
