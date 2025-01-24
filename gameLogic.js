@@ -63,71 +63,56 @@ export class GameLogic {
   }
 
   static calculateWinningProbabilities(diceConfigurations) {
-    // Change header format
+    // Pre-calculate probabilities matrix
+    const probMatrix = diceConfigurations.map((dice1) => 
+        diceConfigurations.map((dice2) => {
+            if (dice1 === dice2) return null;
+            
+            // Calculate wins using reduce for better readability
+            const wins = dice1.reduce((total, val1) => 
+                total + dice2.reduce((wins, val2) => 
+                    wins + (val1 > val2 ? 1 : 0), 0
+                ), 0);
+            
+            return ((wins / 36) * 100).toFixed(1) + "%";
+        })
+    );
+
+    // Create table header
     const tableHeader = ["Dice vs".green];
-    diceConfigurations.forEach((dice) => {
-      tableHeader.push(`[${dice.join(",")}]`.green);
-    });
+    tableHeader.push(...diceConfigurations.map(dice => 
+        `[${dice.join(",")}]`.green
+    ));
 
+    // Initialize table with styling
     const table = new Table({
-      head: tableHeader,
-      style: {
-        head: [],
-        border: [],
-      },
-      chars: {
-        top: "─",
-        "top-mid": "┬",
-        "top-left": "┌",
-        "top-right": "┐",
-        bottom: "─",
-        "bottom-mid": "┴",
-        "bottom-left": "└",
-        "bottom-right": "┘",
-        left: "│",
-        "left-mid": "├",
-        mid: "─",
-        "mid-mid": "┼",
-        right: "│",
-        "right-mid": "┤",
-        middle: "│",
-      },
+        head: tableHeader,
+        style: { head: [], border: [] },
+        chars: {
+            top: "─", "top-mid": "┬", "top-left": "┌", "top-right": "┐",
+            bottom: "─", "bottom-mid": "┴", "bottom-left": "└", "bottom-right": "┘",
+            left: "│", "left-mid": "├", mid: "─", "mid-mid": "┼",
+            right: "│", "right-mid": "┤", middle: "│"
+        }
     });
 
-    diceConfigurations.forEach((dice1, i) => {
-      const row = {};
-      // Change row label format
-      const rowLabel = `[${dice1.join(",")}]`.green;
-      row[rowLabel] = [];
-
-      // Rest of the code remains the same
-      diceConfigurations.forEach((dice2, j) => {
-        if (i === j) {
-          row[rowLabel].push("-");
-          return;
-        }
-        let wins = 0;
-        const total = 36;
-        for (let d1 = 0; d1 < 6; d1++) {
-          for (let d2 = 0; d2 < 6; d2++) {
-            if (dice1[d1] > dice2[d2]) wins++;
-          }
-        }
-        const probability = ((wins / total) * 100).toFixed(1) + "%";
-        row[rowLabel].push(probability);
-      });
-      table.push(row);
+    // Build table rows from pre-calculated matrix
+    diceConfigurations.forEach((dice, i) => {
+        table.push({
+            [`[${dice.join(",")}]`.green]: probMatrix[i].map(prob => 
+                prob === null ? "-" : prob
+            )
+        });
     });
 
-    const explanation = [
-      "\nWinning Probabilities Table:".bold,
-      "• Each row shows how likely that dice is to win against others",
-      "• Higher percentage means better winning chance",
-      "• '-' means same dice can't play against itself",
-      "• Probabilities are calculated based on all possible combinations\n",
+    return [
+        "\nWinning Probabilities Table:".bold,
+        "• Each row shows how likely that dice is to win against others",
+        "• Higher percentage means better winning chance",
+        "• '-' means same dice can't play against itself",
+        "• Probabilities are calculated based on all possible combinations\n",
+        table.toString()
     ].join("\n");
-
-    return explanation + table.toString();
   }
 
   static displayHelp(diceConfigurations) {
