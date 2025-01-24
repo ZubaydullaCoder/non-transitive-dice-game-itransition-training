@@ -12,20 +12,6 @@ export class CryptoHandler {
   }
 
   static generateSecureRandom(min, max) {
-    const range = max - min + 1;
-    const bytesNeeded = Math.ceil(Math.log2(range) / 8);
-    const maxValue = Math.pow(256, bytesNeeded);
-    const maxValidValue = maxValue - (maxValue % range);
-
-    let randomValue;
-    do {
-      const randomBytes = crypto.randomBytes(bytesNeeded);
-      randomValue = 0;
-      for (let i = 0; i < bytesNeeded; i++) {
-        randomValue = (randomValue << 8) + randomBytes[i];
-      }
-    } while (randomValue >= maxValidValue);
-
-    return min + (randomValue % range);
+    return crypto.randomInt(min, max + 1); 
   }
 }
